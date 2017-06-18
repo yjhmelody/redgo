@@ -4,16 +4,15 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
-	//	"fmt"
 	"net"
 	"strconv"
-	//	"strings"
 	"time"
+	"fmt"
 )
 
 type Conn struct {
 	conn   net.Conn
-	reader bufio.Reader
+	reader *bufio.Reader
 }
 
 const (
@@ -36,7 +35,7 @@ func Dial(addr string) (*Conn, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Conn{conn: conn /*, reader: bufio.NewReader(conn)*/}, nil
+	return &Conn{conn: conn , reader: bufio.NewReader(conn)}, nil
 }
 
 func (conn *Conn) Close() error {
@@ -56,13 +55,15 @@ func (conn *Conn) Excute(args ...string) error {
 		buf.WriteString(Sep)
 	}
 	_, err := conn.conn.Write(buf.Bytes())
+	// fmt.Println(buf.Bytes())
 	return err
 }
 
-func (conn *Conn) ReadRaw() ([]byte, error) {
-	var bytes []byte
-	_, err := conn.conn.Read(bytes)
-	return bytes, err
+func (conn *Conn) ReadRaw() (string, error) {
+	var b []byte
+	n, err := conn.conn.Read(b)
+	fmt.Println(b)
+	return string(b[0:n]), err
 }
 
 //func (conn *Conn) Response()(res interface{}, error){
