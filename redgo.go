@@ -60,9 +60,9 @@ func (conn *Conn) Excute(args ...string) error {
 }
 
 func (conn *Conn) ReadRaw() (string, error) {
-	var b []byte
+	b := make([]byte, 4096, 4096)
 	n, err := conn.conn.Read(b)
-	fmt.Println(b)
+	// fmt.Println(n)
 	return string(b[0:n]), err
 }
 
