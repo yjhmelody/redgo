@@ -7,7 +7,7 @@ import (
 	"net"
 	"strconv"
 	"time"
-	"fmt"
+	// "fmt"
 )
 
 type Conn struct {
@@ -60,7 +60,7 @@ func (conn *Conn) Excute(args ...string) error {
 }
 
 func (conn *Conn) ReadRaw() (string, error) {
-	b := make([]byte, 4096, 4096)
+	b := make([]byte, 4096)
 	n, err := conn.conn.Read(b)
 	// fmt.Println(n)
 	return string(b[0:n]), err
